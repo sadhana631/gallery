@@ -1,3 +1,6 @@
+import {Component} from 'react'
+import ThumbnailItem from '../ThumbnailItem'
+import './index.css'
 const imagesList = [
   {
     id: 0,
@@ -73,36 +76,34 @@ class Gallery extends Component {
   state = {
     activeThumbnailId: imagesList[0].id,
   }
-
   setActiveThumbnailId = id => {
     this.setState({
       activeThumbnailId: id,
-  })
+    })
+  }
+  render() {
+    const {activeThumbnailId} = this.state
+    const {imgUrl, imageAltText} = imagesList[activeThumbnailId]
+    return (
+      <div className="app-container">
+        <div className="gallery-container">
+          <img src={imgUrl} className="selected-image" alt={imageAltText} />
+          <h1 className="heading">Nature photography</h1>
+          <p className="description">Nature photography by Rahul</p>
+          <ul className="thumbnails-list">
+            {imagesList.map(eachImage => (
+              <ThumbnailItem
+                key={eachImage.id}
+                imageDetails={eachImage}
+                isActive={activeThumbnailId === eachImage.id}
+                setActiveThumbnailId={this.setActiveThumbnailId}
+              />
+            ))}
+          </ul>
+        </div>
+      </div>
+    )
+  }
 }
 
-render() {
-  const {activeThumbnailId} = this.state
-  const {imgUrl, imageAltText} = imagesList[activeThumbnailId]
-
-  return (
-    <div className="app-container">
-     <div className="gallery-container">
-       <img src={imgUrl} className="selected-image" alt={imageAltText} />
-        <h1 className="heading">Nature photography</h1>
-        <p className="description">Nature photography by Rahul</p>
-        <ul className="thumbnails-list">
-         {imagesList.map(eachImage => (
-           <ThumbnailItem
-             key={eachImage.id}
-             imagesDetails={eachImage}
-             isActive={activeThumbnailId === eachImage.id}
-             setActiveThumbnailId={this.setActiveThumbnailId}
-           />
-         ))}    
-        </ul>
-     </div>
-    </div>
-  ) 
-}
-
-export default Gallery                           
+export default Gallery
